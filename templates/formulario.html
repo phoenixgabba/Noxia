@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Tatuaje - Ritual Ink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="gothic-body">
+    <div class="form-container gothic-frame">
+        <!-- Logo de la tienda -->
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Ritual Ink Logo" class="logo">
+        </div>
+
+        <h1 class="gothic-title">Formulario de Solicitud de Tatuaje</h1>
+
+        <form method="POST" enctype="multipart/form-data" class="gothic-form">
+            {{ form.hidden_tag() }}
+
+            <!-- Campo para Nombre y Apellidos -->
+            <div class="form-group">
+                <label for="nombre">{{ form.nombre.label }}</label>
+                {{ form.nombre(class="form-control", id="nombre", placeholder="Ej: Marta Ruiz") }}
+            </div>
+
+            <!-- Campo para Zona del Cuerpo -->
+            <div class="form-group">
+                <label for="sitio">{{ form.sitio.label }}</label>
+                {{ form.sitio(class="form-control", id="sitio", placeholder="Ej: Brazo derecho") }}
+            </div>
+
+            <!-- Campo para subir imágenes -->
+            <div class="form-group">
+                <label for="foto">{{ form.foto.label }}</label>
+                <!-- Campo para múltiples archivos -->
+                {{ form.foto(class="form-control", id="foto", multiple=True) }}
+            </div>
+
+            <!-- Campo para Tamaño -->
+            <div class="form-group">
+                <label for="tamanio">{{ form.tamanio.label }}</label>
+                {{ form.tamanio(class="form-control", id="tamanio", placeholder="Ej: 10 x 15") }}
+            </div>
+
+            <!-- Campo para las referencias de estilo -->
+            <div class="form-group">
+                <label for="referencias_texto">{{ form.referencias_texto.label }}</label>
+                {{ form.referencias_texto(class="form-control", id="referencias_texto", placeholder="Describe lo que buscas en detalle") }}
+            </div>
+
+            <!-- Campo para seleccionar días -->
+            <div class="form-group">
+                <label for="disponibilidad">{{ form.disponibilidad.label }}</label>
+                <!-- Campo para seleccionar varios días -->
+                {{ form.disponibilidad(class="form-control", id="disponibilidad", multiple=True) }}
+            </div>
+
+            <!-- Campo para seleccionar horarios -->
+            <div class="form-group">
+                <label for="disponibilidad_horaria">{{ form.disponibilidad_horaria.label }}</label>
+                <!-- Selección de mañana o tarde -->
+                {{ form.disponibilidad_horaria(class="form-control", id="disponibilidad_horaria") }}
+            </div>
+
+            <!-- Campo para la forma de contacto -->
+            <div class="form-group">
+                <label for="forma_contacto">{{ form.forma_contacto.label }}</label>
+                {{ form.forma_contacto(class="form-control", id="forma_contacto", placeholder="Ej: Correo electrónico o teléfono") }}
+            </div>
+
+            <!-- Botón de envío -->
+            <button type="submit" class="btn-submit gothic-button">Enviar solicitud</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración - Ritual Ink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="gothic-body">
+    <div class="admin-container gothic-frame">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Ritual Ink" class="logo">
+        </div>
+
+        <h1 class="gothic-title">Panel de Administración</h1>
+
+        <a href="{{ url_for('logout') }}" class="gothic-button logout-button">Cerrar sesión</a>
+
+        {% if formularios %}
+            <div class="form-list">
+                {% for form in formularios %}
+                    <div class="form-entry gothic-entry">
+                        <p><strong>Nombre:</strong> {{ form[1] }}</p>
+                        <p><strong>Sitio:</strong> {{ form[2] }}</p>
+                        <p><strong>Tamaño:</strong> {{ form[3] }}</p>
+                        <p><strong>Días:</strong> {{ form[4] }}</p>
+                        <p><strong>Ideas:</strong> {{ form[5] }}</p>
+                        <p><strong>Teléfono:</strong> {{ form[7] }}</p>
+
+                        {% if form[6] %}
+                            <div class="image-preview">
+                                <strong>Imágenes:</strong><br>
+                                {% for img in form[6].split(',') %}
+                                    <a href="{{ url_for('static', filename='uploads/' ~ img) }}" target="_blank">
+                                        <img src="{{ url_for('static', filename='uploads/' ~ img) }}" alt="Imagen referencia" class="thumbnail">
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p><em>Sin imágenes adjuntas.</em></p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="gothic-paragraph">No hay formularios enviados aún.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
