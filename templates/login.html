@@ -4,17 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <!-- Asegúrate de usar Flask para enlazar los archivos estáticos -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- CSS -->
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/login" method="POST">
-        <label for="username">Usuario:</label>
-        <input type="text" name="username" required><br><br>
+    <div class="login-container">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo"> <!-- Logo en la parte superior -->
+        <h1 class="titulo-login">Iniciar Sesión</h1>
 
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" required><br><br>
+        <!-- Formulario de login -->
+        <form action="/login_process" method="POST"> <!-- Cambiar la acción a la URL correcta de tu Flask -->
+            <label for="username">Nombre de Usuario</label>
+            <input type="text" id="username" name="username" required> <!-- Corregido el id y name -->
 
-        <input type="submit" value="Acceder">
-    </form>
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" required>
+
+            <!-- Botón para iniciar sesión -->
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+
+        <!-- Enlace para recuperar la contraseña -->
+        <a href="/recuperar_contraseña" class="forgot-password">¿Olvidaste tu contraseña?</a>
+
+        <!-- Mensaje de error o éxito -->
+        <div class="message">
+            <!-- Aquí se puede mostrar mensajes de error o éxito si es necesario -->
+        </div>
+    </div>
 </body>
 </html>
