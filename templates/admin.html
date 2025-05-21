@@ -38,6 +38,11 @@
                         {% else %}
                             <p><em>Sin imágenes adjuntas.</em></p>
                         {% endif %}
+
+                        <!-- Botón de eliminar formulario -->
+                        <a href="{{ url_for('eliminar', id=form[0]) }}" 
+                           class="gothic-button delete-button" 
+                           onclick="return confirm('¿Estás seguro de que deseas eliminar este formulario?')">Eliminar</a>
                     </div>
                 {% endfor %}
             </div>

@@ -9,7 +9,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #0a0a0a;
-    color:  lch(79.62% 82.47 81.52);
+    color: lch(79.62% 82.47 81.52);
     font-family: 'CloisterBlack', serif;
     font-size: 18px;
     line-height: 1.6;
@@ -45,7 +45,7 @@ body {
     text-align: center;
     font-size: 36px;
     margin-bottom: 30px;
-    color:  lch(79.62% 82.47 81.52);
+    color: lch(79.62% 82.47 81.52);
     text-shadow: 1px 1px 2px #000;
 }
 
@@ -54,7 +54,7 @@ label {
     display: block;
     margin-top: 20px;
     font-size: 20px;
-    color:  lch(79.62% 82.47 81.52);
+    color: lch(79.62% 82.47 81.52);
 }
 
 /* Inputs y selects */
@@ -66,7 +66,7 @@ textarea {
     padding: 10px;
     margin-top: 6px;
     background-color: #262626;
-    color:  lch(79.62% 82.47 81.52);
+    color: lch(79.62% 82.47 81.52);
     border: 1px solid #665544;
     border-radius: 8px;
     font-family: serif;
@@ -82,7 +82,7 @@ textarea {
 button[type="submit"] {
     margin-top: 30px;
     width: 100%;
-    background-color:  lch(79.62% 82.47 81.52);
+    background-color: lch(79.62% 82.47 81.52);
     color: #1a1a1a;
     font-family: 'CloisterBlack', serif;
     font-size: 20px;
@@ -109,4 +109,35 @@ img {
     border: 1px solid #4a3c2a;
     border-radius: 8px;
     margin-top: 15px;
+}
+
+/* Estilo para el botón de eliminación */
+.gothic-button {
+    display: inline-block;
+    background-color: #4a3c2a;
+    color: #fff;
+    font-family: 'CloisterBlack', serif;
+    font-size: 18px;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    border: 2px solid #4a3c2a;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.gothic-button:hover {
+    background-color: #000;
+    border-color: #ffd700;
+}
+
+.logout-button {
+    background-color: #8b0000;
+    border-color: #8b0000;
+    color: #fff;
+}
+
+.logout-button:hover {
+    background-color: #ff0000;
+    border-color: #ff0000;
 }

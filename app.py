@@ -117,6 +117,30 @@ def admin():
     conn.close()
     return render_template('admin.html', formularios=formularios)
 
+@app.route('/eliminar/<int:id>', methods=['GET'])
+def eliminar(id):
+    conn = get_db()
+    c = conn.cursor()
+    
+    # Obtener el formulario para verificar si tiene imágenes
+    c.execute("SELECT fotos FROM formularios WHERE id=?", (id,))
+    formulario = c.fetchone()
+    
+    if formulario and formulario[0]:
+        # Si tiene imágenes, eliminarlas de la carpeta de uploads
+        fotos = formulario[0].split(',')
+        for foto in fotos:
+            foto_path = os.path.join(app.config['UPLOAD_FOLDER'], foto)
+            if os.path.exists(foto_path):
+                os.remove(foto_path)
+    
+    # Eliminar el formulario de la base de datos
+    c.execute("DELETE FROM formularios WHERE id=?", (id,))
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('admin'))
+
 @app.route('/logout')
 def logout():
     session.clear()
