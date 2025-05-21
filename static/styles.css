@@ -101,3 +101,12 @@ button[type="submit"]:hover {
 select[multiple] {
     height: 140px;
 }
+
+/* Ajuste para imágenes */
+img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #4a3c2a;
+    border-radius: 8px;
+    margin-top: 15px;
+}
