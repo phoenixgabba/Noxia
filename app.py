@@ -15,7 +15,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # ---------- BASE DE DATOS ----------
 def get_db():
-    conn = sqlite3.connect('tattoo_forms.db')
+    conn = sqlite3.connect('formulario.db')  # Cambiado a formulario.db
     return conn
 
 # Crear tabla si no existe
@@ -46,21 +46,18 @@ class FormularioTattoo(FlaskForm):
     foto = FileField('Imagen de referencia', render_kw={"multiple": True})
     tamanio = StringField('Tamaño (cm)', validators=[DataRequired()])
     referencias_texto = TextAreaField('Ideas, referencias y estilo', validators=[DataRequired()])
-    disponibilidad = SelectMultipleField('Días preferentes', choices=[
+    disponibilidad = SelectMultipleField('Días preferentes', choices=[ 
         ('Lunes', 'Lunes'), ('Martes', 'Martes'), ('Miércoles', 'Miércoles'),
         ('Jueves', 'Jueves'), ('Viernes', 'Viernes'), ('Sábado', 'Sábado')],
         validators=[DataRequired()])
-    disponibilidad_horaria = SelectMultipleField('Disponibilidad horaria', choices=[
+    disponibilidad_horaria = SelectMultipleField('Disponibilidad horaria', choices=[ 
         ('Mañanas', 'Mañanas'), ('Tardes', 'Tardes')],
         validators=[DataRequired()])
-    
-    # Campo para forma de contacto
-    telefono_de_contacto = StringField('Número de telefono)', validators=[DataRequired()])
+    telefono_de_contacto = StringField('Número de teléfono', validators=[DataRequired()])
 
 # ---------- RUTAS ----------
 @app.route('/')
 def index():
-    app.logger.info("Accediendo a la página de inicio")
     return redirect(url_for('formulario'))
 
 @app.route('/formulario', methods=['GET', 'POST'])
@@ -70,26 +67,28 @@ def formulario():
         nombre = form.nombre.data
         sitio = form.sitio.data
         tamanio = form.tamanio.data
-        disponibilidad = ', '.join(form.disponibilidad.data)  # Almacenamos los días seleccionados
-        disponibilidad_horaria = ', '.join(form.disponibilidad_horaria.data)  # Almacenamos los horarios seleccionados
+        disponibilidad = ', '.join(form.disponibilidad.data)
+        disponibilidad_horaria = ', '.join(form.disponibilidad_horaria.data)
         referencias_texto = form.referencias_texto.data
         telefono_de_contacto = form.telefono_de_contacto.data
 
-        # Guardar archivos
-        fotos = form.foto.data
+        # Obtener múltiples archivos
+        fotos = request.files.getlist("foto")
         filenames = []
         if fotos:
             for foto in fotos:
-                filename = secure_filename(foto.filename)
-                foto.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                filenames.append(filename)
+                if foto.filename:
+                    filename = secure_filename(foto.filename)
+                    foto.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    filenames.append(filename)
 
+        # Guardar datos en la base de datos
         conn = get_db()
         c = conn.cursor()
         c.execute(""" 
             INSERT INTO formularios (nombre, sitio, tamanio, disponibilidad, referencias_texto, fotos, forma_contacto)
             VALUES (?, ?, ?, ?, ?, ?, ?)""",
-            (nombre, sitio, tamanio, disponibilidad, referencias_texto, ','.join(filenames), forma_contacto))  # Guardamos los datos
+            (nombre, sitio, tamanio, disponibilidad, referencias_texto, ','.join(filenames), telefono_de_contacto))
         conn.commit()
         conn.close()
 
@@ -100,7 +99,7 @@ def formulario():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        if request.form['username'] == 'admin' and request.form['password'] == '12345':
+        if request.form['username'] == 'La Nuit' and request.form['password'] == 'nuez+almendra15':
             session['logged_in'] = True
             return redirect(url_for('admin'))
         else:

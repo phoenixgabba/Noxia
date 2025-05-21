@@ -46,7 +46,7 @@
             <!-- Campo para las referencias de estilo -->
             <div class="form-group">
                 <label for="referencias_texto">{{ form.referencias_texto.label }}</label>
-                {{ form.referencias_texto(class="form-control", id="referencias_texto", placeholder="Describe lo que buscas en detalle, Ejemplo: Quiero un tatuaje de una bruja del estilo grabado, que este de frernte mirando hacia abajo y con la escoba en la mano derecha, la mano iquierda levantada, sin que tenga contacto con la escoba. La ropa busco que sea un vestido clasico con mucha tela, y sin más elementos añadidos sobre el vestuario, que vaya descalza y esté sobre una hoguera medieval con unos fuegos que le abracen hasta las rodillas. ") }}
+                {{ form.referencias_texto(class="form-control", id="referencias_texto", placeholder="Describe lo que buscas en detalle, Ejemplo: Quiero un tatuaje de una bruja del estilo grabado, que este de frente mirando hacia abajo y con la escoba en la mano derecha, la mano izquierda levantada, sin que tenga contacto con la escoba. La ropa busco que sea un vestido clásico con mucha tela, y sin más elementos añadidos sobre el vestuario, que vaya descalza y esté sobre una hoguera medieval con unos fuegos que le abracen hasta las rodillas.") }}
             </div>
 
             <!-- Campo para seleccionar días -->
@@ -60,10 +60,10 @@
             <div class="form-group">
                 <label for="disponibilidad_horaria">{{ form.disponibilidad_horaria.label }}</label>
                 <!-- Selección de mañana o tarde -->
-                {{ form.disponibilidad_horaria(class="form-control", id="disponibilidad_horaria") }}
+                {{ form.disponibilidad_horaria(class="form-control", id="disponibilidad_horaria", multiple=True) }}
             </div>
 
-            <!-- Campo para telefono de contacto -->
+            <!-- Campo para teléfono de contacto -->
             <div class="form-group">
                 <label for="telefono_de_contacto">{{ form.telefono_de_contacto.label }}</label>
                 {{ form.telefono_de_contacto(class="form-control", id="telefono_de_contacto", placeholder="Ej: Número teléfono") }}
