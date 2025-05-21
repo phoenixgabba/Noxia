@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -33,7 +33,6 @@
             <!-- Campo para subir imágenes -->
             <div class="form-group">
                 <label for="foto">{{ form.foto.label }}</label>
-                <!-- Campo para múltiples archivos -->
                 {{ form.foto(class="form-control", id="foto", multiple=True) }}
             </div>
 
@@ -46,20 +45,18 @@
             <!-- Campo para las referencias de estilo -->
             <div class="form-group">
                 <label for="referencias_texto">{{ form.referencias_texto.label }}</label>
-                {{ form.referencias_texto(class="form-control", id="referencias_texto", placeholder="Describe lo que buscas en detalle, Ejemplo: Quiero un tatuaje de una bruja del estilo grabado, que este de frente mirando hacia abajo y con la escoba en la mano derecha, la mano izquierda levantada, sin que tenga contacto con la escoba. La ropa busco que sea un vestido clásico con mucha tela, y sin más elementos añadidos sobre el vestuario, que vaya descalza y esté sobre una hoguera medieval con unos fuegos que le abracen hasta las rodillas.") }}
+                {{ form.referencias_texto(class="form-control", id="referencias_texto", placeholder="Describe lo que buscas en detalle...") }}
             </div>
 
             <!-- Campo para seleccionar días -->
             <div class="form-group">
                 <label for="disponibilidad">{{ form.disponibilidad.label }}</label>
-                <!-- Campo para seleccionar varios días -->
                 {{ form.disponibilidad(class="form-control", id="disponibilidad", multiple=True) }}
             </div>
 
             <!-- Campo para seleccionar horarios -->
             <div class="form-group">
                 <label for="disponibilidad_horaria">{{ form.disponibilidad_horaria.label }}</label>
-                <!-- Selección de mañana o tarde -->
                 {{ form.disponibilidad_horaria(class="form-control", id="disponibilidad_horaria", multiple=True) }}
             </div>
 
@@ -69,6 +66,11 @@
                 {{ form.telefono_de_contacto(class="form-control", id="telefono_de_contacto", placeholder="Ej: Número teléfono") }}
             </div>
 
+            <!-- Mensaje de política de privacidad -->
+            <p class="privacy-policy">
+                Al enviar este formulario, aceptas que los datos personales que nos proporcionas serán tratados de acuerdo con nuestra
+                <a href="/politica-de-privacidad" target="_blank">Política de Privacidad</a>. Los datos se utilizarán exclusivamente para gestionar tu solicitud y cumplir con las finalidades detalladas en dicha política. Tienes derecho a acceder, rectificar, eliminar y oponerte al tratamiento de tus datos en cualquier momento.
+            </p>
             <!-- Botón de envío -->
             <button type="submit" class="btn-submit gothic-button">Enviar solicitud</button>
         </form>

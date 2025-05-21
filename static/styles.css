@@ -141,3 +141,22 @@ img {
     background-color: #ff0000;
     border-color: #ff0000;
 }
+/* Estilo para el mensaje de política de privacidad */
+.privacy-policy {
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.privacy-policy a {
+    color: #d4af37;  /* Color dorado */
+    text-decoration: underline;
+}
+
+.privacy-policy a:hover {
+    color: #f0e68c;  /* Color dorado más claro al pasar el cursor */
+}
