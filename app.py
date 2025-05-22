@@ -95,6 +95,7 @@ def formulario():
         return redirect(url_for('formulario'))
 
     return render_template('formulario.html', form=form)
+
 @app.route('/politica-de-privacidad')
 def politica_privacidad():
     return render_template('politica_privacidad.html')
@@ -102,6 +103,7 @@ def politica_privacidad():
 @app.route('/politica-de-cookies')
 def politica_cookies():
     return render_template('politica_cookies.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
