@@ -41,7 +41,8 @@
                         {% endif %}
 
                         <!-- Botón eliminar -->
-                        <form action="{{ url_for('eliminar_formulario', id=form[0]) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este formulario?');">
+                        <form action="{{ url_for('eliminar_formulario', formulario_id=form[0]) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este formulario?');">
+
                             <button type="submit" class="gothic-button danger-button">Eliminar</button>
                         </form>
                     </div>
