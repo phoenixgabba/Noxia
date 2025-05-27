@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, Response
 from flask_wtf import FlaskForm
 from wtforms import StringField, FileField, TextAreaField, SelectMultipleField
 from wtforms.validators import DataRequired
 from werkzeug.utils import secure_filename
 import sqlite3
 import os
+import csv
+import io
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -31,8 +33,8 @@ def init_db():
             disponibilidad TEXT,
             referencias_texto TEXT,
             fotos TEXT,
-            forma_contacto TEXT
-            instagram
+            forma_contacto TEXT,
+            instagram TEXT
         )
     ''')
     conn.commit()
@@ -57,7 +59,7 @@ class FormularioTattoo(FlaskForm):
     
     telefono_de_contacto = StringField('Número de telefono', validators=[DataRequired()])
     instagram = StringField('Instagram', validators=[DataRequired()])
-    
+
 # ---------- RUTAS ----------
 @app.route('/')
 def index():
@@ -75,10 +77,8 @@ def formulario():
         disponibilidad_horaria = ', '.join(form.disponibilidad_horaria.data)
         referencias_texto = form.referencias_texto.data
         telefono_de_contacto = form.telefono_de_contacto.data
-        instagram = form.nombre.data
+        instagram = form.instagram.data
 
-
-        # ✅ Corrección: obtener múltiples archivos
         fotos = request.files.getlist("foto")
         filenames = []
         if fotos:
@@ -92,8 +92,8 @@ def formulario():
         c = conn.cursor()
         c.execute(""" 
             INSERT INTO formularios (nombre, sitio, tamanio, disponibilidad, referencias_texto, fotos, forma_contacto, instagram)
-            VALUES (?, ?, ?, ?, ?, ?, ?)""",
-            (nombre, sitio, tamanio, disponibilidad, referencias_texto, ','.join(filenames), telefono_de_contacto), instagram)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+            (nombre, sitio, tamanio, disponibilidad, referencias_texto, ','.join(filenames), telefono_de_contacto, instagram))
         conn.commit()
         conn.close()
 
@@ -126,9 +126,6 @@ def admin():
 def logout():
     session.clear()
     return redirect(url_for('login'))
-from flask import Response
-import csv
-import io
 
 @app.route('/exportar')
 def exportar_csv():
@@ -145,7 +142,7 @@ def exportar_csv():
     writer = csv.writer(output)
 
     # Escribir encabezados
-    writer.writerow(['ID', 'Nombre', 'Sitio', 'Tamaño', 'Días', 'Ideas', 'Imágenes', 'Teléfono', 'instagram'])
+    writer.writerow(['ID', 'Nombre', 'Sitio', 'Tamaño', 'Días', 'Ideas', 'Imágenes', 'Teléfono', 'Instagram'])
 
     # Escribir datos
     for form in formularios:
