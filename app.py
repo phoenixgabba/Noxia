@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
-from wtforms import StringField, FileField, TextAreaField, SelectMultipleField
+from wtforms import StringField, PasswordField, FileField, TextAreaField, SelectMultipleField
 from wtforms.validators import DataRequired
 from werkzeug.utils import secure_filename
 import sqlite3
@@ -8,10 +8,9 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
-
-UPLOAD_FOLDER = os.path.join('static', 'uploads')
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['WTF_CSRF_ENABLED'] = True  # Protección CSRF habilitada
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # ---------- BASE DE DATOS ----------
 def get_db():
@@ -39,7 +38,7 @@ def init_db():
 
 init_db()
 
-# ---------- FORMULARIO ----------
+# ---------- FORMULARIOS ----------
 class FormularioTattoo(FlaskForm):
     nombre = StringField('Nombre y Apellidos', validators=[DataRequired()])
     sitio = StringField('Zona del cuerpo', validators=[DataRequired()])
@@ -53,14 +52,15 @@ class FormularioTattoo(FlaskForm):
     disponibilidad_horaria = SelectMultipleField('Disponibilidad horaria', choices=[
         ('Mañanas', 'Mañanas'), ('Tardes', 'Tardes')],
         validators=[DataRequired()])
-    
-    # Campo para forma de contacto
-    forma_contacto = StringField('Forma de contacto (correo o teléfono)', validators=[DataRequired()])
+    telefono_de_contacto = StringField('Número de telefono)', validators=[DataRequired()])
+
+class LoginForm(FlaskForm):
+    username = StringField('Usuario', validators=[DataRequired()])
+    password = PasswordField('Contraseña', validators=[DataRequired()])
 
 # ---------- RUTAS ----------
 @app.route('/')
 def index():
-    app.logger.info("Accediendo a la página de inicio")
     return redirect(url_for('formulario'))
 
 @app.route('/formulario', methods=['GET', 'POST'])
@@ -70,16 +70,15 @@ def formulario():
         nombre = form.nombre.data
         sitio = form.sitio.data
         tamanio = form.tamanio.data
-        disponibilidad = ', '.join(form.disponibilidad.data)  # Almacenamos los días seleccionados
-        disponibilidad_horaria = ', '.join(form.disponibilidad_horaria.data)  # Almacenamos los horarios seleccionados
+        disponibilidad = ', '.join(form.disponibilidad.data)
+        disponibilidad_horaria = ', '.join(form.disponibilidad_horaria.data)
         referencias_texto = form.referencias_texto.data
-        forma_contacto = form.forma_contacto.data
+        telefono_de_contacto = form.telefono_de_contacto.data
 
-        # Guardar archivos
-        fotos = form.foto.data
+        fotos = request.files.getlist("foto")
         filenames = []
-        if fotos:
-            for foto in fotos:
+        for foto in fotos:
+            if foto.filename:
                 filename = secure_filename(foto.filename)
                 foto.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 filenames.append(filename)
@@ -89,7 +88,7 @@ def formulario():
         c.execute(""" 
             INSERT INTO formularios (nombre, sitio, tamanio, disponibilidad, referencias_texto, fotos, forma_contacto)
             VALUES (?, ?, ?, ?, ?, ?, ?)""",
-            (nombre, sitio, tamanio, disponibilidad, referencias_texto, ','.join(filenames), forma_contacto))  # Guardamos los datos
+            (nombre, sitio, tamanio, disponibilidad, referencias_texto, ','.join(filenames), telefono_de_contacto))
         conn.commit()
         conn.close()
 
@@ -99,13 +98,14 @@ def formulario():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        if request.form['username'] == 'admin' and request.form['password'] == '12345':
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.username.data == 'admin' and form.password.data == '12345':
             session['logged_in'] = True
             return redirect(url_for('admin'))
         else:
             return 'Credenciales incorrectas'
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 
 @app.route('/admin')
 def admin():

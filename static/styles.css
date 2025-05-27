@@ -9,7 +9,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #0a0a0a;
-    color: #e0d6b4;
+    color: lch(79.62% 82.47 81.52);
     font-family: 'CloisterBlack', serif;
     font-size: 18px;
     line-height: 1.6;
@@ -45,7 +45,7 @@ body {
     text-align: center;
     font-size: 36px;
     margin-bottom: 30px;
-    color: #d4b25f;
+    color:  lch(79.62% 82.47 81.52);
     text-shadow: 1px 1px 2px #000;
 }
 
@@ -54,7 +54,7 @@ label {
     display: block;
     margin-top: 20px;
     font-size: 20px;
-    color: #e0d6b4;
+    color:  lch(79.62% 82.47 81.52);
 }
 
 /* Inputs y selects */
@@ -66,7 +66,7 @@ textarea {
     padding: 10px;
     margin-top: 6px;
     background-color: #262626;
-    color: #f8f4e6;
+    color:  lch(79.62% 82.47 81.52);
     border: 1px solid #665544;
     border-radius: 8px;
     font-family: serif;
@@ -82,7 +82,7 @@ textarea {
 button[type="submit"] {
     margin-top: 30px;
     width: 100%;
-    background-color: #d4b25f;
+    background-color:  lch(79.62% 82.47 81.52);
     color: #1a1a1a;
     font-family: 'CloisterBlack', serif;
     font-size: 20px;
@@ -94,7 +94,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #e6c97c;
+    background-color:  lch(79.62% 82.47 81.52);
 }
 
 /* Select múltiple */

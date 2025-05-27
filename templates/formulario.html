@@ -3,75 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud de Tatuaje - Ritual Ink</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Formulario de Tattoo</title>
 </head>
-<body class="gothic-body">
-    <div class="form-container gothic-frame">
-        <!-- Logo de la tienda -->
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="Ritual Ink Logo" class="logo">
-        </div>
+<body>
+    <h1>Formulario de Tattoo</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
 
-        <h1 class="gothic-title">Formulario de Solicitud de Tatuaje</h1>
+        <label for="nombre">Nombre y Apellidos:</label><br>
+        {{ form.nombre }}<br><br>
 
-        <form method="POST" enctype="multipart/form-data" class="gothic-form">
-            {{ form.hidden_tag() }}
+        <label for="sitio">Zona del cuerpo:</label><br>
+        {{ form.sitio }}<br><br>
 
-            <!-- Campo para Nombre y Apellidos -->
-            <div class="form-group">
-                <label for="nombre">{{ form.nombre.label }}</label>
-                {{ form.nombre(class="form-control", id="nombre", placeholder="Ej: Marta Ruiz") }}
-            </div>
+        <label for="tamanio">Tamaño (cm):</label><br>
+        {{ form.tamanio }}<br><br>
 
-            <!-- Campo para Zona del Cuerpo -->
-            <div class="form-group">
-                <label for="sitio">{{ form.sitio.label }}</label>
-                {{ form.sitio(class="form-control", id="sitio", placeholder="Ej: Brazo derecho") }}
-            </div>
+        <label for="disponibilidad">Días preferentes:</label><br>
+        {{ form.disponibilidad }}<br><br>
 
-            <!-- Campo para subir imágenes -->
-            <div class="form-group">
-                <label for="foto">{{ form.foto.label }}</label>
-                <!-- Campo para múltiples archivos -->
-                {{ form.foto(class="form-control", id="foto", multiple=True) }}
-            </div>
+        <label for="disponibilidad_horaria">Disponibilidad horaria:</label><br>
+        {{ form.disponibilidad_horaria }}<br><br>
 
-            <!-- Campo para Tamaño -->
-            <div class="form-group">
-                <label for="tamanio">{{ form.tamanio.label }}</label>
-                {{ form.tamanio(class="form-control", id="tamanio", placeholder="Ej: 10 x 15") }}
-            </div>
+        <label for="referencias_texto">Ideas, referencias y estilo:</label><br>
+        {{ form.referencias_texto }}<br><br>
 
-            <!-- Campo para las referencias de estilo -->
-            <div class="form-group">
-                <label for="referencias_texto">{{ form.referencias_texto.label }}</label>
-                {{ form.referencias_texto(class="form-control", id="referencias_texto", placeholder="Describe lo que buscas en detalle") }}
-            </div>
+        <label for="foto">Imagen de referencia:</label><br>
+        {{ form.foto }}<br><br>
 
-            <!-- Campo para seleccionar días -->
-            <div class="form-group">
-                <label for="disponibilidad">{{ form.disponibilidad.label }}</label>
-                <!-- Campo para seleccionar varios días -->
-                {{ form.disponibilidad(class="form-control", id="disponibilidad", multiple=True) }}
-            </div>
+        <label for="telefono_de_contacto">Número de teléfono:</label><br>
+        {{ form.telefono_de_contacto }}<br><br>
 
-            <!-- Campo para seleccionar horarios -->
-            <div class="form-group">
-                <label for="disponibilidad_horaria">{{ form.disponibilidad_horaria.label }}</label>
-                <!-- Selección de mañana o tarde -->
-                {{ form.disponibilidad_horaria(class="form-control", id="disponibilidad_horaria") }}
-            </div>
-
-            <!-- Campo para la forma de contacto -->
-            <div class="form-group">
-                <label for="forma_contacto">{{ form.forma_contacto.label }}</label>
-                {{ form.forma_contacto(class="form-control", id="forma_contacto", placeholder="Ej: Correo electrónico o teléfono") }}
-            </div>
-
-            <!-- Botón de envío -->
-            <button type="submit" class="btn-submit gothic-button">Enviar solicitud</button>
-        </form>
-    </div>
+        <input type="submit" value="Enviar">
+    </form>
 </body>
 </html>
