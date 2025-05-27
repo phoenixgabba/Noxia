@@ -122,6 +122,34 @@ def admin():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+from flask import Response
+import csv
+import io
+
+@app.route('/exportar')
+def exportar_csv():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("SELECT * FROM formularios")
+    formularios = c.fetchall()
+    conn.close()
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Escribir encabezados
+    writer.writerow(['ID', 'Nombre', 'Sitio', 'Tamaño', 'Días', 'Ideas', 'Imágenes', 'Teléfono'])
+
+    # Escribir datos
+    for form in formularios:
+        writer.writerow(form)
+
+    output.seek(0)
+    return Response(output, mimetype="text/csv",
+                    headers={"Content-Disposition": "attachment;filename=formularios.csv"})
 
 if __name__ == '__main__':
     app.run(debug=True)
