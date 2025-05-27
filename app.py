@@ -32,6 +32,7 @@ def init_db():
             referencias_texto TEXT,
             fotos TEXT,
             forma_contacto TEXT
+            instagram
         )
     ''')
     conn.commit()
@@ -54,8 +55,9 @@ class FormularioTattoo(FlaskForm):
         ('Mañanas', 'Mañanas'), ('Tardes', 'Tardes')],
         validators=[DataRequired()])
     
-    telefono_de_contacto = StringField('Número de telefono)', validators=[DataRequired()])
-
+    telefono_de_contacto = StringField('Número de telefono', validators=[DataRequired()])
+    instagram = StringField('Instagram', validators=[DataRequired()])
+    
 # ---------- RUTAS ----------
 @app.route('/')
 def index():
@@ -73,6 +75,8 @@ def formulario():
         disponibilidad_horaria = ', '.join(form.disponibilidad_horaria.data)
         referencias_texto = form.referencias_texto.data
         telefono_de_contacto = form.telefono_de_contacto.data
+        instagram = form.nombre.data
+
 
         # ✅ Corrección: obtener múltiples archivos
         fotos = request.files.getlist("foto")
@@ -87,9 +91,9 @@ def formulario():
         conn = get_db()
         c = conn.cursor()
         c.execute(""" 
-            INSERT INTO formularios (nombre, sitio, tamanio, disponibilidad, referencias_texto, fotos, forma_contacto)
+            INSERT INTO formularios (nombre, sitio, tamanio, disponibilidad, referencias_texto, fotos, forma_contacto, instagram)
             VALUES (?, ?, ?, ?, ?, ?, ?)""",
-            (nombre, sitio, tamanio, disponibilidad, referencias_texto, ','.join(filenames), telefono_de_contacto))
+            (nombre, sitio, tamanio, disponibilidad, referencias_texto, ','.join(filenames), telefono_de_contacto), instagram)
         conn.commit()
         conn.close()
 
@@ -141,7 +145,7 @@ def exportar_csv():
     writer = csv.writer(output)
 
     # Escribir encabezados
-    writer.writerow(['ID', 'Nombre', 'Sitio', 'Tamaño', 'Días', 'Ideas', 'Imágenes', 'Teléfono'])
+    writer.writerow(['ID', 'Nombre', 'Sitio', 'Tamaño', 'Días', 'Ideas', 'Imágenes', 'Teléfono', 'instagram'])
 
     # Escribir datos
     for form in formularios:
