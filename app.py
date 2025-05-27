@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, FileField, TextAreaField, SelectMultipleField
+from wtforms import StringField, FileField, TextAreaField, SelectMultipleField
 from wtforms.validators import DataRequired
 from werkzeug.utils import secure_filename
 import sqlite3
@@ -8,9 +8,10 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
-app.config['WTF_CSRF_ENABLED'] = True  # Protección CSRF habilitada
-app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # ---------- BASE DE DATOS ----------
 def get_db():
@@ -38,7 +39,7 @@ def init_db():
 
 init_db()
 
-# ---------- FORMULARIOS ----------
+# ---------- FORMULARIO ----------
 class FormularioTattoo(FlaskForm):
     nombre = StringField('Nombre y Apellidos', validators=[DataRequired()])
     sitio = StringField('Zona del cuerpo', validators=[DataRequired()])
@@ -52,15 +53,13 @@ class FormularioTattoo(FlaskForm):
     disponibilidad_horaria = SelectMultipleField('Disponibilidad horaria', choices=[
         ('Mañanas', 'Mañanas'), ('Tardes', 'Tardes')],
         validators=[DataRequired()])
+    
     telefono_de_contacto = StringField('Número de telefono)', validators=[DataRequired()])
-
-class LoginForm(FlaskForm):
-    username = StringField('Usuario', validators=[DataRequired()])
-    password = PasswordField('Contraseña', validators=[DataRequired()])
 
 # ---------- RUTAS ----------
 @app.route('/')
 def index():
+    app.logger.info("Accediendo a la página de inicio")
     return redirect(url_for('formulario'))
 
 @app.route('/formulario', methods=['GET', 'POST'])
@@ -75,13 +74,15 @@ def formulario():
         referencias_texto = form.referencias_texto.data
         telefono_de_contacto = form.telefono_de_contacto.data
 
+        # ✅ Corrección: obtener múltiples archivos
         fotos = request.files.getlist("foto")
         filenames = []
-        for foto in fotos:
-            if foto.filename:
-                filename = secure_filename(foto.filename)
-                foto.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                filenames.append(filename)
+        if fotos:
+            for foto in fotos:
+                if foto.filename:
+                    filename = secure_filename(foto.filename)
+                    foto.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    filenames.append(filename)
 
         conn = get_db()
         c = conn.cursor()
@@ -98,14 +99,13 @@ def formulario():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        if form.username.data == 'admin' and form.password.data == '12345':
+    if request.method == 'POST':
+        if request.form['username'] == 'admin' and request.form['password'] == '12345':
             session['logged_in'] = True
             return redirect(url_for('admin'))
         else:
             return 'Credenciales incorrectas'
-    return render_template('login.html', form=form)
+    return render_template('login.html')
 
 @app.route('/admin')
 def admin():

@@ -8,15 +8,13 @@
 <body>
     <h1>Login</h1>
     <form action="/login" method="POST">
-        {{ form.csrf_token }}
         <label for="username">Usuario:</label>
-        {{ form.username }}<br><br>
+        <input type="text" name="username" required><br><br>
 
         <label for="password">Contraseña:</label>
-        {{ form.password }}<br><br>
+        <input type="password" name="password" required><br><br>
 
         <input type="submit" value="Acceder">
     </form>
 </body>
 </html>
-
