@@ -151,5 +151,18 @@ def exportar_csv():
     return Response(output, mimetype="text/csv",
                     headers={"Content-Disposition": "attachment;filename=formularios.csv"})
 
+@app.route('/eliminar/<int:formulario_id>', methods=['POST'])
+def eliminar_formulario(formulario_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("DELETE FROM formularios WHERE id = ?", (formulario_id,))
+    conn.commit()
+    conn.close()
+    
+    return redirect(url_for('admin'))
+
 if __name__ == '__main__':
     app.run(debug=True)

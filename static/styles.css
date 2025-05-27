@@ -146,3 +146,39 @@ button[type="submit"]:hover {
 select[multiple] {
     height: 140px;
 }
+
+/* Botones estilo gótico */
+.gothic-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: lch(79.62% 82.47 81.52);
+    color: #1a1a1a;
+    font-family: 'CloisterBlack', serif;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.gothic-button:hover {
+    background-color: lch(79.62% 82.47 81.52);
+    opacity: 0.9;
+}
+
+/* Botón de logout o de eliminar */
+.logout-button,
+.danger-button {
+    background-color: #aa1e1e;
+    color: #f0e9d6;
+    margin-left: 10px;
+}
+
+.logout-button:hover,
+.danger-button:hover {
+    background-color: #cc0000;
+    color: #fff;
+}

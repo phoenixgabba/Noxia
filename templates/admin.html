@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel de Administración - Ritual Ink</title>
-    <a href="{{ url_for('exportar_csv') }}" class="gothic-button" style="margin-top: 20px;">Descargar CSV</a>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body class="gothic-body">
@@ -15,6 +14,7 @@
         <h1 class="gothic-title">Panel de Administración</h1>
 
         <a href="{{ url_for('logout') }}" class="gothic-button logout-button">Cerrar sesión</a>
+        <a href="{{ url_for('exportar_csv') }}" class="gothic-button" style="margin-top: 20px;">Descargar CSV</a>
 
         {% if formularios %}
             <div class="form-list">
@@ -39,6 +39,11 @@
                         {% else %}
                             <p><em>Sin imágenes adjuntas.</em></p>
                         {% endif %}
+
+                        <!-- Botón eliminar -->
+                        <form action="{{ url_for('eliminar_formulario', id=form[0]) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este formulario?');">
+                            <button type="submit" class="gothic-button danger-button">Eliminar</button>
+                        </form>
                     </div>
                 {% endfor %}
             </div>
