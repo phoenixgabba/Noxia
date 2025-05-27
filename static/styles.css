@@ -31,6 +31,18 @@ body {
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
 }
 
+/* Contenedor del login (nuevo) */
+.login-container {
+    width: 90%;
+    max-width: 400px;
+    background-color: #1a1a1a;
+    padding: 40px;
+    border: 2px solid #4a3c2a;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    text-align: center;
+}
+
 /* Logo */
 .logo {
     display: block;
@@ -57,11 +69,25 @@ label {
     color:  lch(79.62% 82.47 81.52);
 }
 
-/* Inputs y selects */
+/* Inputs y selects para formulario */
 input[type="text"],
 input[type="file"],
 select,
 textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    background-color: #262626;
+    color:  lch(79.62% 82.47 81.52);
+    border: 1px solid #665544;
+    border-radius: 8px;
+    font-family: serif;
+    font-size: 16px;
+}
+
+/* Inputs para login (añadido para que se ajusten) */
+.login-container input[type="text"],
+.login-container input[type="password"] {
     width: 100%;
     padding: 10px;
     margin-top: 6px;
@@ -78,7 +104,7 @@ textarea {
     resize: vertical;
 }
 
-/* Botón de enviar */
+/* Botón de enviar formulario */
 button[type="submit"] {
     margin-top: 30px;
     width: 100%;
@@ -94,6 +120,25 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
+    background-color:  lch(79.62% 82.47 81.52);
+}
+
+/* Botón submit login (como input submit) */
+.login-container input[type="submit"] {
+    margin-top: 30px;
+    width: 100%;
+    background-color:  lch(79.62% 82.47 81.52);
+    color: #1a1a1a;
+    font-family: 'CloisterBlack', serif;
+    font-size: 20px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-container input[type="submit"]:hover {
     background-color:  lch(79.62% 82.47 81.52);
 }
 
