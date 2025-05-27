@@ -100,7 +100,7 @@ def formulario():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        if request.form['username'] == 'admin' and request.form['password'] == '12345':
+        if request.form['username'] == 'La Nuit' and request.form['password'] == '1551':
             session['logged_in'] = True
             return redirect(url_for('admin'))
         else:
